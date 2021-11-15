@@ -34,6 +34,7 @@ namespace MamaZoneAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MamaZoneAPI", Version = "v1" });
             });
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +48,11 @@ namespace MamaZoneAPI
             }
 
             app.UseRouting();
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+             
+            });
 
             app.UseAuthorization();
 
